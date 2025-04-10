@@ -45,6 +45,10 @@ body {
   box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
 }
 
+.item-img.in-cart {
+  border: 3px solid hsl(14, 86%, 42%);
+}
+
 .add-item {
   position: absolute;
   display: flex;
@@ -61,6 +65,31 @@ body {
 
 .add-item img {
   margin-right: 4px;
+}
+
+.quantity-controls {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 150px;
+  padding: 10px 0;
+  border-radius: 20px;
+  background-color: hsl(14, 86%, 42%);
+  color: white;
+}
+
+.increment,
+.decrement {
+  background-color: hsl(14, 86%, 42%);
+  color: white;
+  border: 1px solid white;
+  border-radius: 50%;
+  padding: 2px 4px;
+  font-size: 12px;
+  font-weight: bold;
 }
 
 .item-name-price {
@@ -332,4 +361,93 @@ body {
 }
 .attribution a {
   color: hsl(228, 45%, 44%);
+}
+
+/* media queries */
+@media (max-width: 1050px) {
+  .container {
+    grid-template-columns: 1fr;
+    margin: 2rem;
+  }
+
+  .items {
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    justify-items: center;
+  }
+
+  .item-img {
+    height: 180px;
+    width: 200px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    grid-template-columns: 1fr;
+    margin: 2rem;
+  }
+
+  .items {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    justify-items: center;
+  }
+
+  .item-img {
+    height: 200px;
+    width: 230px;
+  }
+
+  .add-item,
+  .quantity-controls {
+    width: 150px;
+    padding: 8px 0;
+  }
+
+  .item-name-price {
+    margin-top: 25px;
+  }
+
+  .cart-section {
+    margin-top: 30px;
+  }
+
+  .order-confirmation {
+    width: 90%;
+  }
+
+  .order-item > img {
+    height: 30px;
+    width: 30px;
+  }
+
+  .cart-item-details > h5 {
+    font-size: 14px;
+  }
+
+  .cart-item-quantity-price > p {
+    font-size: 12px;
+  }
+
+  .cart-total h2 {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .items {
+    grid-template-columns: 1fr;
+  }
+
+  .item-img {
+    height: 180px;
+    width: 250px;
+  }
+
+  .add-item,
+  .quantity-controls {
+    width: 150px;
+    padding: 10px 0;
+  }
 }

@@ -1,3 +1,4 @@
+const itemCards = document.querySelectorAll(".item-card");
 const addItemButtons = document.querySelectorAll(".add-item");
 const cartHeading = document.getElementById("cart-heading");
 const cartItemsContainer = document.querySelector(".cart-items");
@@ -82,6 +83,23 @@ function updateCart() {
 
   const totalItemsInCart = cart.reduce((sum, item) => sum + item.quantity, 0);
   cartHeading.textContent = `Your cart (${totalItemsInCart})`;
+
+  itemCards.forEach((_, i) => renderItemControls(i));
+  toCheckInCartItem();
+}
+
+function toCheckInCartItem() {
+  itemCards.forEach((card, i) => {
+    const img = card.querySelector(".item-img");
+    const itemName = itemsData[i].name;
+    const inCart = cart.some((item) => item.name === itemName);
+
+    if (inCart) {
+      img.classList.add("in-cart");
+    } else {
+      img.classList.remove("in-cart");
+    }
+  });
 }
 
 function cartItemsAdded() {
@@ -117,7 +135,6 @@ function cartItemsAdded() {
     cartItemsContainer.appendChild(cartItem);
   });
 
-  // 💰 Order Total
   const cartTotal = document.createElement("div");
   cartTotal.classList.add("cart-total");
   cartTotal.innerHTML = `
@@ -126,7 +143,6 @@ function cartItemsAdded() {
      `;
   cartItemsContainer.appendChild(cartTotal);
 
-  // 🌱 Carbon neutral message
   const carbonNote = document.createElement("div");
   carbonNote.classList.add("carbon-note");
   carbonNote.innerHTML = `
@@ -147,22 +163,76 @@ function confirmOrder() {
 
 addItemButtons.forEach((btn, index) => {
   btn.addEventListener("click", () => {
-    const itemDetails = itemsData[index];
-    const existingItem = cart.find((i) => i.name === itemDetails.name);
-
-    if (existingItem) {
-      existingItem.quantity += 1;
-    } else {
-      cart.push({
-        name: itemDetails.name,
-        price: itemDetails.price,
-        quantity: 1,
-      });
-    }
-
-    updateCart();
+    addToCart(index);
   });
 });
+
+function addToCart(index) {
+  const itemDetails = itemsData[index];
+  const existingItem = cart.find((i) => i.name === itemDetails.name);
+
+  if (existingItem) {
+    existingItem.quantity += 1;
+  } else {
+    cart.push({
+      name: itemDetails.name,
+      price: itemDetails.price,
+      quantity: 1,
+    });
+  }
+
+  updateCart();
+}
+
+function renderItemControls(index) {
+  const card = itemCards[index];
+  const container = card.querySelector(".button-container");
+  container.innerHTML = "";
+
+  const cartItem = cart.find((item) => item.name === itemsData[index].name);
+  if (!cartItem) {
+    // Show Add to Cart
+    const addBtn = document.createElement("button");
+    addBtn.classList.add("add-item");
+    addBtn.innerHTML = `
+      <img src="assets/images/icon-add-to-cart.svg" alt="cart-img" />
+      <p>Add to Cart</p>
+    `;
+    addBtn.addEventListener("click", () => {
+      addToCart(index);
+    });
+    container.appendChild(addBtn);
+  } else {
+    // Show + and - controls
+    const controls = document.createElement("div");
+    controls.classList.add("quantity-controls");
+
+    const minusBtn = document.createElement("button");
+    minusBtn.textContent = "-";
+    minusBtn.classList.add("decrement");
+    minusBtn.addEventListener("click", () => {
+      cartItem.quantity--;
+      if (cartItem.quantity === 0) {
+        cart.splice(cart.indexOf(cartItem), 1);
+      }
+      updateCart();
+    });
+
+    const count = document.createElement("span");
+    count.textContent = cartItem.quantity;
+
+    const plusBtn = document.createElement("button");
+    plusBtn.textContent = "+";
+    plusBtn.classList.add("increment");
+    plusBtn.addEventListener("click", () => {
+      cartItem.quantity++;
+      updateCart();
+    });
+
+    controls.append(minusBtn, count, plusBtn);
+    container.appendChild(controls);
+  }
+}
 
 cartItemsContainer.addEventListener("click", (e) => {
   if (e.target.classList.contains("remove-item")) {
