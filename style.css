@@ -119,10 +119,6 @@ body {
   border-bottom: 1px solid hsl(13, 31%, 94%);
 }
 
-.cart-item > div {
-  /* margin-bottom: 5px; */
-}
-
 .cart-item-details > h5 {
   color: hsl(14, 65%, 9%);
 }

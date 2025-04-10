@@ -145,8 +145,8 @@ function confirmOrder() {
   cartItemsContainer.appendChild(confirmOrder);
 }
 
-addItemButtons.forEach((item, index) => {
-  item.addEventListener("click", () => {
+addItemButtons.forEach((btn, index) => {
+  btn.addEventListener("click", () => {
     const itemDetails = itemsData[index];
     const existingItem = cart.find((i) => i.name === itemDetails.name);
 
