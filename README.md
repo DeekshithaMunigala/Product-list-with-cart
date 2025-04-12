@@ -74,7 +74,7 @@ Check out the live version here: [Product-list-with-cart](https://product-list-w
 ├── index.html     # Main HTML file
 ├── style.css      # All UI and responsive styles
 └── script.js      # Cart logic and DOM manipulation
-
+```
 
 ## 👨‍🍳 Author
 
